@@ -1,46 +1,73 @@
-import grpc
-import buckets_pb2_grpc
-import buckets_pb2
+from __future__ import print_function
+
+
 import fmt
 import io
 
+import random
+import logging
+import struct
+
+import grpc
+import buckets_pb2_grpc
+import buckets_pb2
+from dataclasses import dataclass
+
+@dataclass
+class Client:
+    c: pb.APIClient
+    conn: *grpc.ClientConn
 
 
+    
 
-def make_route_note(message, latitude, longitude):
-    return route_guide_pb2.RouteNote(
-        message=message,
-        location=route_guide_pb2.Point(latitude=latitude, longitude=longitude))
+def NewClient((target string, opts ...grpc.DialOption) (*Client, error) {
+	conn, err := grpc.Dial(target, opts...)):
+    return buckets_pb2.NewClient(
+        return Client(c=pb.NewAPIClient(conn),conn=conn)
 
+def (c *Client) Close (channel, error):
+    c.conn.Close() 
 
-def guide_get_one_feature(stub, point):
-    feature = stub.GetFeature(point)
-    if not feature.location:
-        print("Server returned incomplete feature")
-        return
+def (c *Client) Init(ctx context.Context, opts ...InitOption) (*pb.InitReply, error):
+    args = initOptions()
+    if opt=range.opts(opt(args)):
+        print(strCid = args.fromCid.String())
+        return c.c.Init(ctx, &pb.InitRequest (
+            Name:         args.name,
+            Private:      args.private,
+            BootstrapCid: strCid
+        )
+def (c *Client) Root(ctx context.Context, key string) (*pb.RootReply, error):
+    return c.c.Root(ctx, &pb.RootRequest(Key: key))
 
-    if feature.name:
-        print("Feature called %s at %s" % (feature.name, feature.location))
-    else:
-        print("Found no feature at %s" % feature.location)
+def (c *Client) Links(ctx context.Context, key string) (*pb.LinksReply, error):
+	return c.c.Links(ctx, &pb.LinksRequest(Key: key))
 
+def (c *Client) List(ctx context.Context) (*pb.ListReply, error):
+	return c.c.List(ctx, &pb.ListRequest())
+		
+def (c *Client) ListIpfsPath(ctx context.Context, pth path.Path) (*pb.ListIpfsPathReply, error):
+	return c.c.ListIpfsPath(ctx, &pb.ListIpfsPathRequest(Path: pth.String()))
 
-def guide_get_feature(stub):
-    guide_get_one_feature(
-        stub, route_guide_pb2.Point(latitude=409146138, longitude=-746188906))
-    guide_get_one_feature(stub, route_guide_pb2.Point(latitude=0, longitude=0))
+def (c *Client) ListPath(ctx context.Context, key, pth string) (*pb.ListPathReply, error): 
+	return c.c.ListPath(ctx, &pb.ListPathRequest(
+		Key:  key,
+		Path: pth
+	))
 
+def (c *Client) SetPath(ctx context.Context, key, pth string, remoteCid cid.Cid) (*pb.SetPathReply, error):
+	return c.c.SetPath(ctx, &pb.SetPathRequest(
+		Key:  key,
+		Path: pth,
+		Cid:  remoteCid.String()
+	)
 
-def guide_list_features(stub):
-    rectangle = route_guide_pb2.Rectangle(
-        lo=route_guide_pb2.Point(latitude=400000000, longitude=-750000000),
-        hi=route_guide_pb2.Point(latitude=420000000, longitude=-730000000))
-    print("Looking for features between 40, -75 and 42, -73")
-
-    features = stub.ListFeatures(rectangle)
-
-    for feature in features:
-        print("Feature called %s at %s" % (feature.name, feature.location))
+@dataclass
+class pushPathResult:
+    path: path.Resolved
+	root: path.Resolved
+	err:  error
 
 
 def generate_route(feature_list):
