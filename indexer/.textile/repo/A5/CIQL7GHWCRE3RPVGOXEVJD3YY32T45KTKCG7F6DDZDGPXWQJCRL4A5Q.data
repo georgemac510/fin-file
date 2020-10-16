@@ -1,0 +1,40 @@
+{
+  "data": [
+      {
+          "filename": "files/bitcoin/image/bitcoin_1day.png",
+          "original": "bitcoin_1day.png",
+          "asset": "bitcoin",
+          "file_type": "image"
+      },
+      {
+          "filename": "files/bitcoin/image/bitcoin_1hr.png",
+          "original": "bitcoin_1hr.png",
+          "asset": "bitcoin",
+          "file_type": "image"
+      },
+      {
+          "filename": "files/bitcoin/image/bitcoin_1min.png",
+          "original": "bitcoin_1min.png",
+          "asset": "bitcoin",
+          "file_type": "image"
+      },
+      {
+          "filename": "files/bitcoin/image/bitcoin_6hr.png",
+          "original": "bitcoin_6hr.png",
+          "asset": "bitcoin",
+          "file_type": "image"
+      },
+      {
+          "filename": "files/bitcoin/image/bitcoin_30min.png",
+          "original": "bitcoin_30min.png",
+          "asset": "bitcoin",
+          "file_type": "image"
+      },
+      {
+          "filename": "files/bitcoin/image/bitcoin_usd_btc_usd1105.png",
+          "original": "bitcoin_usd_btc_usd1105.png",
+          "asset": "bitcoin",
+          "file_type": "image"
+      }
+    ]
+}

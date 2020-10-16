@@ -1,0 +1,14 @@
+{
+    "data": {
+      "bitcoin": {
+            "image": [
+              "bitcoin_1day.png",
+              "bitcoin_1hr.png",
+              "bitcoin_1min.png",
+              "bitcoin_6hr.png",
+              "bitcoin_30min.png",
+              "bitcoin_usd_btc_usd1105.png"
+            ],
+          }
+     }
+}
